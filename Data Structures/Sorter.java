@@ -1,3 +1,4 @@
+// selection sort, insertion sort, mergesort, quicksort
 public class Sorter {
 	public int indexOfMin(Comparable[] a, int startIndex) {
 		int min = startIndex;
