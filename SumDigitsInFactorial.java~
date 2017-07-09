@@ -1,5 +1,0 @@
-public static class SumDigitsInFactorial {
-  
-  public static int digitsInFactorial(int n) {
-  }
-}
