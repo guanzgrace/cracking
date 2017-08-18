@@ -57,4 +57,42 @@ class Solution {
         }
         return ans;
     }
+
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int totalNum = nums1.length + nums2.length;
+        int medianIndexEven = totalNum / 2;
+        int medianIndex = totalNum / 2 + 1;
+        int i = 0, j = 0;
+        double toReturn = 0;
+        while (i < nums1.length || j < nums2.length) {
+            if ((i < nums1.length && j < nums2.length && nums1[i] <= nums2[j]) || (i < nums1.length && j >= nums2.length)) {
+                if ((i + j + 1) == medianIndex && totalNum % 2 == 1) {
+                    toReturn = nums1[i];
+                    return toReturn;
+                }
+                if ((i + j + 1) == medianIndex && totalNum % 2 == 0) {
+                    toReturn += nums1[i];
+                    return toReturn / 2;
+                }
+                if ((i + j + 1 == medianIndexEven) && totalNum % 2 == 0) {
+                    toReturn += nums1[i];
+                }
+                i++;
+            } else if ((i < nums1.length && j < nums2.length && nums1[i] > nums2[j]) || (j < nums2.length && i >= nums1.length)) {
+                if ((i + j + 1) == medianIndex && totalNum % 2 == 1) {
+                    toReturn = nums2[j];
+                    return toReturn;
+                }
+                if ((i + j + 1) == medianIndex && totalNum % 2 == 0) {
+                    toReturn += nums2[j];
+                    return toReturn / 2;
+                }
+                if ((i + j + 1 == medianIndexEven) && totalNum % 2 == 0) {
+                    toReturn += nums2[j];
+                }
+                j++;
+            }
+        }
+        return toReturn;
+    }
 }
