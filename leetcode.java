@@ -95,4 +95,25 @@ class Solution {
         }
         return toReturn;
     }
+
+    // remember to check for overflow
+    // if x = a * b + c
+    // if (a != 0 && (x - c) / a != b) break;
+    public int reverse(int x) {
+        boolean negative = false;
+        if (x < 0) {
+            negative = true;
+             x = -1 * x;
+        }
+        int toReturn = 0;
+        while (x > 0) {
+            int oldToReturn = toReturn;
+            int mod = x % 10;
+            toReturn = 10 * oldToReturn + mod;
+            if (oldToReturn != 0 && (toReturn - mod) / oldToReturn != 10) { return 0; }
+            x = x / 10;
+        }
+        if (negative) { toReturn = -1 * toReturn; }
+        return toReturn;
+    }
 }
