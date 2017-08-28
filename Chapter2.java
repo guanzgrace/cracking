@@ -22,6 +22,13 @@ public class Chapter2 {
 			}
 			n.next = end;
 		}
+		void add(Node d) {
+			Node n = this;
+			while (n.next != null) {
+				n = n.next;
+			}
+			n.next = d;
+		}
 		Node delete(Node head, int d) {
 			Node n = head;
 			if (n.data == d) {
@@ -108,9 +115,27 @@ public class Chapter2 {
 		n.next = null;
 	}
 
-	// 2.4
-	public void partition(Node head) {
-
+	// 2.4 create lists of smaller, equal, larger than partition value,
+	// then concatenate the lists at the end
+	public void partition(Node head, int partition) {
+		Node smaller = new Node(0);
+		Node equal = new Node(0);
+		Node larger = new Node(0);
+		Node n = head;
+		while (n.next != null) {
+			int data = n.data;
+			if (data > partition) {
+				larger.add(data);
+			} else if (data == partition) {
+				equal.add(data);
+			} else if (data < partition) {
+				smaller.add(data);
+			}
+			n = n.next;
+		}
+		equal.add(larger.next);
+		smaller.add(equal.next);
+		return smaller.next;
 	}
 
 	// 2.5 sum two numbers same as leetcode
@@ -144,4 +169,76 @@ public class Chapter2 {
         }
         return first;
     }
+
+    // 2.6
+    // either get to middle of linked list and reverse, then compare halves O(1) space
+    // or push everything onto stack and traverse again O(N) space
+    // both are O(N)
+    public boolean isPalindrome(Node head) {
+    	Stack<Integer> s = new Stack<Integer>();
+    	Node n = head;
+		while (n.next != null) {
+			s.push(n.data);
+			n = n.next;
+		}
+		Node n2 = head;
+		while (! s.isEmpty()) {
+			if (s.pop() != n2.data) {
+				return false;
+			}
+			n2 = n2.next;
+		}
+		return true;
+    }
+
+    // 2.7 or use a hashtable... intersecting linked lists will have same end node
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int len1 = 0;
+        int len2 = 0;
+        ListNode p1 = headA
+        ListNode p2 = headB;
+        if (p1 == null || p2 == null)
+            return null;
+ 
+        while(p1 != null){
+            len1++;
+            p1 = p1.next;
+        }
+        while(p2 !=null){
+            len2++;
+            p2 = p2.next;
+        }
+ 
+        int diff = 0;
+        p1 = headA;
+        p2 = headB;
+ 
+        if(len1 > len2){
+            diff = len1-len2;
+            int i=0;
+            while(i<diff){
+                p1 = p1.next;
+                i++;
+            }
+        }else{
+            diff = len2-len1;
+            int i=0;
+            while(i<diff){
+                p2 = p2.next;
+                i++;
+            }
+        }
+ 
+        while(p1 != null && p2 != null){
+            if(p1.val == p2.val){
+                return p1;
+            }
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+ 
+        return null;
+    }
+
+	// 2.8    
 }
