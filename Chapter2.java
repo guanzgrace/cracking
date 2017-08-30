@@ -240,5 +240,13 @@ public class Chapter2 {
         return null;
     }
 
-	// 2.8    
+	// 2.8
+	function boolean hasLoop(Node startNode){
+	  Node slowNode = Node fastNode1 = Node fastNode2 = startNode;
+	  while (slowNode && fastNode1 = fastNode2.next() && fastNode2 = fastNode1.next()){
+	    if (slowNode == fastNode1 || slowNode == fastNode2) return true;
+	    slowNode = slowNode.next();
+	  }
+	  return false;
+	}    
 }
