@@ -1,5 +1,5 @@
 /**
- * Cracking the Coding Interview Chapter 1
+ * Cracking the Coding Interview Chapter 2
  * Grace Guan 8/27/17
  * 
  * Linked Lists
