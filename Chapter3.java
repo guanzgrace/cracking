@@ -1,5 +1,5 @@
 /**
- * Cracking the Coding Interview Chapter 1
+ * Cracking the Coding Interview Chapter 3
  * Grace Guan 8/27/17
  * 
  * Stacks and Queues
@@ -276,5 +276,9 @@ public class Chapter3 {
 		}
 	}
 
-	// 3.6 animal shelter (choose dog or cat from stack)
+	// 3.6 animal shelter (choose dog or cat from queue)
+	// two queues, one with dogs, one with cats
+	// dequeueAny: compare top of dog and cat, see which one is older, dequeue that one
+	// dequeueDog: dequeue oldest dog
+	// dequeueCat: dequeue oldest cat
 }
