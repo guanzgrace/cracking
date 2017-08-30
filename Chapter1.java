@@ -20,12 +20,8 @@ public class Chapter1 {
     Hashtable<Character, Integer> dups = new Hashtable<Character, Integer>();
     for (int i = 0; i < input.length(); i++) {
       char current = input.charAt(i);
-      if (dups.containsKey(current)) {
-        return false;
-      }
-      else {
-        dups.put(current, 1);
-      }
+      if (dups.containsKey(current)) { return false; }
+      else { dups.put(current, 1); }
     }
     return true;
   }
@@ -35,9 +31,7 @@ public class Chapter1 {
     char[] chars = input.toCharArray();
     Arrays.sort(chars);
     for (int i = 1; i < chars.length; i++) {
-      if (chars[i - 1] == chars[i]) {
-        return false;
-      }
+      if (chars[i - 1] == chars[i]) { return false; }
     }
     return true;
   }
@@ -48,27 +42,19 @@ public class Chapter1 {
     Hashtable<Character, Integer> secondString = new HashTable<Character, Integer>();
     for (int i = 0; i < input1.length(); i++) {
       char current = input1.charAt(i);
-      if (firstString.containsKey(current)) {
-        firstString.put(current, firstString.get(current) + 1);
-      } else {
-        firstString.put(current, 1);
-      }
+      if (firstString.containsKey(current)) { firstString.put(current, firstString.get(current) + 1); }
+      else { firstString.put(current, 1); }
     }
 
     for (int i = 0; i < input2.length(); i++) {
       char current = input2.charAt(i);
-      if (secondString.containsKey(current)) {
-        secondString.put(current, secondString.get(current) + 1);
-      } else {
-        secondString.put(current, 1);
-      }
+      if (secondString.containsKey(current)) { secondString.put(current, secondString.get(current) + 1); }
+      else { secondString.put(current, 1); }
     }
 
     Set<Character> keys = firstString.keySet();
     for (Character c : keys) {
-      if (firstString.get(c) != secondString.get(c)) {
-        return false;
-      }
+      if (firstString.get(c) != secondString.get(c)) { return false; }
     }
     return true;
   }
@@ -78,9 +64,7 @@ public class Chapter1 {
     int spaces = 0;
     for (int i = 0; i < length; i++) {
       char current = input1.charAt(i);
-      if (current == ' ') {
-        spaces++;
-      }
+      if (current == ' ') { spaces++; }
     }
 
     char[] url = new char[length + 2 * spaces];
@@ -100,27 +84,20 @@ public class Chapter1 {
     return url;
   }
 
-  // 1.4
+  // 1.4 to be a palindrome permutation, all or all but one letters in s need to occur an even number of times
   public boolean palindromePermutation(String s) {
-    // to be a palindrome permutation, all or all but one letters in s need to 
-    // occur an even number of times
     char[] input = s.replaceAll(" ", "").toCharArray();
     Hashtable<String, Integer> t = new Hashtable<String, Integer>();
     for (int i = 0; i < input.length; i++) {
       char current = input[i];
-      if (t.containsKey(current)) {
-        t.put(current, t.get(current) + 1);
-      } else {
-        t.put(current, 1);
-      }
+      if (t.containsKey(current)) { t.put(current, t.get(current) + 1); }
+      else { t.put(current, 1); }
     }
 
     Set<Character> keys = t.keySet();
     int odd = 0;
     for (Character c : keys) {
-      if (firstString.get(c) % 2 == 1) {
-        odd++;
-      }
+      if (firstString.get(c) % 2 == 1) { odd++; }
     }
     return odd == 0 || odd == 1;
   }
@@ -131,10 +108,10 @@ public class Chapter1 {
       if (s.charAt(i) != t.charAt(i)) {
         if (s.length() == t.length()) // s has the same length as t, so the only possibility is replacing one char in s and t
           return s.substring(i + 1).equals(t.substring(i + 1));
-      else if (s.length() < t.length()) // t is longer than s, so the only possibility is deleting one char from t
-        return s.substring(i).equals(t.substring(i + 1));           
-      else // s is longer than t, so the only possibility is deleting one char from s
-        return t.substring(i).equals(s.substring(i + 1));
+        else if (s.length() < t.length()) // t is longer than s, so the only possibility is deleting one char from t
+          return s.substring(i).equals(t.substring(i + 1));           
+        else // s is longer than t, so the only possibility is deleting one char from s
+          return t.substring(i).equals(s.substring(i + 1));
       }
     }       
     //All previous chars are the same, the only possibility is deleting the end char in the longer one of s and t 
@@ -156,9 +133,7 @@ public class Chapter1 {
         count++;
       }
     }
-    if (b.length() >= s.length()) {
-      return s;
-    }
+    if (b.length() >= s.length()) { return s; }
     return b.toString();
   }
 
@@ -218,65 +193,57 @@ public class Chapter1 {
 
   // 1.9
   public boolean stringRotation(String s1, String s2) {
-    if (s1.length() != s2.length()) {
-      return false;
-    }
+    if (s1.length() != s2.length()) { return false; }
     return isSubstring(s2, s1 + s1);
   }
 
   // longest palindrome substring from leetcode
-      // This function prints the longest palindrome substring
-    // of str[].
-    // It also returns the length of the longest palindrome
-    static int longestPalSubstr(String str) {
-        int n = str.length();   // get length of input string
- 
-        // table[i][j] will be false if substring str[i..j]
-        // is not palindrome.
-        // Else table[i][j] will be true
-        boolean table[][] = new boolean[n][n];
- 
-        // All substrings of length 1 are palindromes
-        int maxLength = 1;
-        for (int i = 0; i < n; ++i)
-            table[i][i] = true;
- 
-        // check for sub-string of length 2.
-        int start = 0;
-        for (int i = 0; i < n - 1; ++i) {
-            if (str.charAt(i) == str.charAt(i + 1)) {
-                table[i][i + 1] = true;
-                start = i;
-                maxLength = 2;
-            }
-        }
-         
-        // Check for lengths greater than 2. k is length
-        // of substring
-        for (int k = 3; k <= n; ++k) {
-             
-                  // Fix the starting index
-            for (int i = 0; i < n - k + 1; ++i) 
-            {
-                // Get the ending index of substring from
-                // starting index i and length k
-                int j = i + k - 1;
- 
-                // checking for sub-string from ith index to
-                // jth index iff str.charAt(i+1) to 
-                // str.charAt(j-1) is a palindrome
-                if (table[i + 1][j - 1] && str.charAt(i) == 
-                                          str.charAt(j)) {
-                    table[i][j] = true;
- 
-                    if (k > maxLength) {
-                        start = i;
-                        maxLength = k;
-                    }
-                }
-            }
-        }
-         
-        return maxLength; // return length of LPS
-    }
+  // This function prints the longest palindrome substring
+  // of str[].
+  // It also returns the length of the longest palindrome
+  static int longestPalSubstr(String str) {
+      int n = str.length();   // get length of input string
+
+      // table[i][j] will be false if substring str[i..j]
+      // is not palindrome.
+      // Else table[i][j] will be true
+      boolean table[][] = new boolean[n][n];
+
+      // All substrings of length 1 are palindromes
+      int maxLength = 1;
+      for (int i = 0; i < n; ++i)
+          table[i][i] = true;
+
+      // check for sub-string of length 2.
+      int start = 0;
+      for (int i = 0; i < n - 1; ++i) {
+          if (str.charAt(i) == str.charAt(i + 1)) {
+              table[i][i + 1] = true;
+              start = i;
+              maxLength = 2;
+          }
+      }
+       
+      // Check for lengths greater than 2. k is length
+      // of substring
+      for (int k = 3; k <= n; ++k) {
+          // Fix the starting index
+          for (int i = 0; i < n - k + 1; ++i) {
+              // Get the ending index of substring from
+              // starting index i and length k
+              int j = i + k - 1;
+              // checking for sub-string from ith index to
+              // jth index iff str.charAt(i+1) to 
+              // str.charAt(j-1) is a palindrome
+              if (table[i + 1][j - 1] && str.charAt(i) ==  str.charAt(j)) {
+                  table[i][j] = true;
+                  if (k > maxLength) {
+                      start = i;
+                      maxLength = k;
+                  }
+              }
+          }
+      }
+      return maxLength; // return length of LPS
+  }
 }
