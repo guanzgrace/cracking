@@ -98,4 +98,26 @@ public class Chapter4 {
 		return result;
 	}
 
+	// interview game
+	 public void game(int[] input){
+        int n = input[0];
+        for(int t = 1; t < n; t++) {
+            // change int to binary
+            char[] chars = Integer.toBinaryString(input[t]).toCharArray();
+            // count inversions
+            int inversions = 0;
+            for (int i = 0; i < chars.length; i++) {
+                for (int j = i; j < chars.length; j++) {
+                    if (chars[i] > chars[j]) {
+                        inversions++;
+                    }
+                }
+            }
+            if (inversions % 2 == 0) {
+                System.out.println("Second Player");
+            } else {
+                System.out.println("First Player");
+            }
+        }
+    }
 }
