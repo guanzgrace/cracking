@@ -14,7 +14,7 @@ public class Chapter4 {
 		visit(root);
 		root.visited = true;
 		for (Node n : root.adjacent) {
-			if (! n.visited) search(n);
+			if (! n.visited) dfs(n);
 		}
 	}
 
@@ -164,6 +164,76 @@ public class Chapter4 {
 	}
 
 	// 4.7
+	public class CharPair {
+		public char first;
+		public char second;
+		public CharacterPair(char first, char second) {
+			this.first = first;
+			this.second = second;
+		}
+	}
+
+	public class CharNode{
+		public char c;
+		public ArrayList<CharNode> outgoing;
+		public ArrayList<CharNode> incoming;
+		public CharNode(char c) {
+			this.c = c;
+			adjacent = new ArrayList<CharNode>();
+		}
+		public void addOutgoing(CharNode c) {
+			outogoing.add(c);
+		}
+		public void addIncoming(CharNode c) {
+			incoming.add(c);
+		}
+		public boolean allValidIncoming(Hashtable<CharNode, Boolean> marked) {
+			for (CharNode c : incoming) {
+				if (marked.get(c) == false) return false;
+			}
+			return true;
+		}
+	}
+
+	public ArrayList<Character> buildOrder(ArrayList<Character> projects, ArrayList<CharacterPair> dependencies) {
+		Hashtable<Character, CharNode> chars = new Hashtable<Character, CharNode>();
+		Hashtable<CharNode, Boolean> marked = new Hashtable<CharNode, Boolean>();
+		for (Character c : projects) {
+			marked.add(new CharNode(c), false);
+		}
+		for (CharacterPair p : dependencies) {
+			chars.get(p.first).addOutgoing(chars.get(p.second));
+			chars.get(p.second).addIncoming(chars.get(p.first));
+		}
+
+		// bfs
+		ArrayList<Character> buildOrder = new ArrayList<Character>();
+		Queue<CharNode> q = new Queue<CharNode>();
+		for (CharNode c : marked) {
+			if (c.incoming.size() == 0) {
+				marked.put(c, true);
+				q.enqueue(c);
+				buildOrder.add(c.c);
+			}
+		}
+		while (! q.isEmpty()) {
+			CharNode c = q.dequeue();
+			for (CharNode c2 : c.outgoing) {
+				if (marked.get(c2) == false && c2.allValidIncoming(marked)) {
+					q.enqueue(c2);
+					marked.put(c2, true);
+					buildOrder.add(c2.c);
+				}
+			}
+		} // or pop to a stack
+
+		if (buildOrder.size() != projects.size()) {
+			return null;
+		}
+		return buildOrder;
+	}
+
+	// 4.8
 
 	// interview game
 	 public void game(int[] input){
