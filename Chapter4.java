@@ -120,7 +120,6 @@ public class Chapter4 {
 	}
 
 	// 4.5
-
 	public boolean validateBST(TreeNode root) {
 		return validateBST(root.left, root.value, true) && validateBST(root.right, root.value, false);
 	}
@@ -140,6 +139,31 @@ public class Chapter4 {
 
 		return true;
 	}
+
+	// 4.6
+	public Node successor(TreeNode root) {
+		if (root == null) return null;
+		
+		Node n = root;
+		// Found right children -> return left most node of right subtree
+		if (n.parent == null || n.right != null) { 
+			while (n.right != null) {
+				n = n.right;
+			}
+			return n; 
+		} else { 
+			TreeNode q = n;
+			TreeNode x = q.parent;
+			// Go up the left side
+			while (x != null && x.left != q) {
+				q = x;
+				x = x.parent;
+			}
+			return x;
+		}  
+	}
+
+	// 4.7
 
 	// interview game
 	 public void game(int[] input){
