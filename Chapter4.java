@@ -119,6 +119,28 @@ public class Chapter4 {
 		return checkHeight(root) != Integer.MIN_VALUE;
 	}
 
+	// 4.5
+
+	public boolean validateBST(TreeNode root) {
+		return validateBST(root.left, root.value, true) && validateBST(root.right, root.value, false);
+	}
+	public boolean validateBST(TreeNode node, int oldValue, boolean isLeft) {
+		if (node == null) return true;
+
+		if (!validateBST(node.left, node.value, true)) {
+			return false;
+		}
+		if (oldValue != null) {
+			if (isLeft && n.value < oldValue) return false;
+			if (!isLeft && n.value <= oldValue) return false;
+		}
+		if (!validateBST(node.right, node.value, false)) {
+			return false;
+		}
+
+		return true;
+	}
+
 	// interview game
 	 public void game(int[] input){
         int n = input[0];
