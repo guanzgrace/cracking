@@ -234,6 +234,153 @@ public class Chapter4 {
 	}
 
 	// 4.8
+	public static TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		if (!covers(root, p) || !covers(root, q)) { // Error check - one node is not in tree
+			return null;
+		}
+		return ancestorHelper(root, p, q);
+	}
+	
+	public static TreeNode ancestorHelper(TreeNode root, TreeNode p, TreeNode q) {
+		if (root == null || root == p || root == q) {
+			return root;
+		}
+		
+		boolean pIsOnLeft = covers(root.left, p);
+		boolean qIsOnLeft = covers(root.left, q);
+		if (pIsOnLeft != qIsOnLeft) { // Nodes are on different side
+			return root;
+		}
+		TreeNode childSide = pIsOnLeft ? root.left : root.right;
+		return ancestorHelper(childSide, p, q);
+	}	
+	
+	// check if root is a parent of p
+	public static boolean covers(TreeNode root, TreeNode p) { 
+		if (root == null) return false;
+		if (root == p) return true;
+		return covers(root.left, p) || covers(root.right, p); 
+	}
+
+	// 4.9 ???????????????? review, do not understand
+	public static void weaveLists(LinkedList<Integer> first, LinkedList<Integer> second, ArrayList<LinkedList<Integer>> results, LinkedList<Integer> prefix) {
+		/* One list is empty. Add the remainder to [a cloned] prefix and
+		 * store result. */
+		if (first.size() == 0 || second.size() == 0) {
+			LinkedList<Integer> result = (LinkedList<Integer>) prefix.clone();
+			result.addAll(first);
+			result.addAll(second);
+			results.add(result);
+			return;
+		}
+		
+		/* Recurse with head of first added to the prefix. Removing the
+		 * head will damage first, so we’ll need to put it back where we
+		 * found it afterwards. */
+		int headFirst = first.removeFirst();
+		prefix.addLast(headFirst);
+		weaveLists(first, second, results, prefix);
+		prefix.removeLast();
+		first.addFirst(headFirst);
+		
+		/* Do the same thing with second, damaging and then restoring
+		 * the list.*/
+		int headSecond = second.removeFirst();
+		prefix.addLast(headSecond);
+		weaveLists(first, second, results, prefix);
+		prefix.removeLast();	
+		second.addFirst(headSecond);
+	}
+	
+	public static ArrayList<LinkedList<Integer>> allSequences(TreeNode node) {
+		ArrayList<LinkedList<Integer>> result = new ArrayList<LinkedList<Integer>>();
+		
+		if (node == null) {
+			result.add(new LinkedList<Integer>());
+			return result;
+		} 
+		
+		LinkedList<Integer> prefix = new LinkedList<Integer>();
+		prefix.add(node.data);
+		
+		/* Recurse on left and right subtrees. */
+		ArrayList<LinkedList<Integer>> leftSeq = allSequences(node.left);
+		ArrayList<LinkedList<Integer>> rightSeq = allSequences(node.right);
+		
+		/* Weave together each list from the left and right sides. */
+		for (LinkedList<Integer> left : leftSeq) {
+			for (LinkedList<Integer> right : rightSeq) {
+				ArrayList<LinkedList<Integer>> weaved = new ArrayList<LinkedList<Integer>>();
+				weaveLists(left, right, weaved, prefix);
+				result.addAll(weaved);
+			}
+		}
+		return result;
+	}
+
+	// 4.10 all we have to do is check the inorder traversals
+	public void getInOrder(Node n, StringBuilder sb) {
+		if (node == null) {
+			sb.append("X");
+			return;
+		}
+		sb.append(n.data);
+		getInOrder(n.left, sb);
+		getInOrder(n.right, sb);
+	}
+
+	public boolean isSubtree(Node n1, Node n2) {
+		StringBuilder string1 = new StringBuilder();
+		StringBuilder string2 = new StringBuilder();
+		getInOrder(n1, string1);
+		getInOrder(n2, string2);
+		return string1.toString().indexOf(string2.toString()) != -1;
+	}
+
+	// 4.11
+	// find the ith node of a tree
+	public TreeNode getIthNode(int i) {
+		int leftSize = left == null ? 0 : left.size();
+		if (i < leftSize) {
+			return left.getIthNode(i);
+		} else if (i == leftSize) {
+			return this;
+		} else {
+			return right.getIthNode(i - (leftSize + 1));
+		}
+	}
+
+	// 4.12 ??? review again
+	public static int countPathsWithSum(TreeNode root, int targetSum) {
+		if (root == null) return 0;
+		
+		/* Count paths with sum starting from the root. */
+		int pathsFromRoot = countPathsWithSumFromNode(root, targetSum, 0);
+		
+		/* Try the nodes on the left and right. */
+		int pathsOnLeft = countPathsWithSum(root.left, targetSum);
+		int pathsOnRight = countPathsWithSum(root.right, targetSum);
+		
+		return pathsFromRoot + pathsOnLeft + pathsOnRight;
+	}
+	
+	/* Returns the number of paths with this sum starting from this node. */
+	public static int countPathsWithSumFromNode(TreeNode node, int targetSum, int currentSum) {
+		if (node == null) return 0;
+	
+		currentSum += node.data;
+		
+		int totalPaths = 0;
+		if (currentSum == targetSum) { // Found a path from the root
+			totalPaths++;
+		}
+		
+		totalPaths += countPathsWithSumFromNode(node.left, targetSum, currentSum); // Go left
+		totalPaths += countPathsWithSumFromNode(node.right, targetSum, currentSum); // Go right
+		
+		return totalPaths;
+	}
+
 
 	// interview game
 	 public void game(int[] input){
