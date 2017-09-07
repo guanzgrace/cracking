@@ -3,4 +3,13 @@
  * Grace Guan 9/3/17
  * 
  * Bit Manipulation ??
+ * 
+ * Key Facts
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
