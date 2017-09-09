@@ -80,4 +80,44 @@ public class Solution{
 		failedPoints.add(p); // Cache result
 		return false;
 	}
+
+	// 8.3
+	public static int magicFast(int[] array, int start, int end) {
+		if (end < start) {
+			return -1;
+		}
+		int mid = (start + end) / 2;
+		if (array[mid] == mid) {
+			return mid;
+		} else if (array[mid] > mid){
+			return magicFast(array, start, mid - 1);
+		} else {
+			return magicFast(array, mid + 1, end);
+		}
+	}
+	
+	public static int magicFast(int[] array) {
+		return magicFast(array, 0, array.length - 1);
+	}
+
+	// 8.4
+	public static ArrayList<ArrayList<Integer>> getSubsets(ArrayList<Integer> set, int index) {
+		ArrayList<ArrayList<Integer>> allsubsets;
+		if (set.size() == index) { // Base case - add empty set
+			allsubsets = new ArrayList<ArrayList<Integer>>();
+			allsubsets.add(new ArrayList<Integer>()); 
+		} else {
+			allsubsets = getSubsets(set, index + 1);
+			int item = set.get(index);
+			ArrayList<ArrayList<Integer>> moresubsets = new ArrayList<ArrayList<Integer>>();
+			for (ArrayList<Integer> subset : allsubsets) {
+				ArrayList<Integer> newsubset = new ArrayList<Integer>();
+				newsubset.addAll(subset); 
+				newsubset.add(item);
+				moresubsets.add(newsubset);
+			}
+			allsubsets.addAll(moresubsets);
+		}
+		return allsubsets;
+	}
 }
